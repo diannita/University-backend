@@ -15,3 +15,7 @@ Mongo DB
 
 FLASK
 
+Angular JS
+
+Json
+
