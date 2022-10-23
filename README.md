@@ -10,6 +10,8 @@ Dentro de los requisitos que han mencionado, el sistema debe tener un esquema de
 
 ## Technologies
 Python
+
 Mongo DB
+
 FLASK
 
