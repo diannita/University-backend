@@ -17,3 +17,6 @@ FLASK
 Angular JS  
 
 JSON
+
+
+## Configuraciones agregdas - Abiertas ya que son de ejemplo
