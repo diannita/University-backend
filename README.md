@@ -19,4 +19,4 @@ Angular JS
 JSON
 
 
-## Configuraciones agregdas - Abiertas ya que son de ejemplo
+## Configuraciones agregadas - Abiertas ya que son de ejemplo
