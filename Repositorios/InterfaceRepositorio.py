@@ -54,8 +54,8 @@ class InterfaceRepositorio(Generic[T]): #creacion de una clase generica
 
     #Update - actualizar el ID de un objecto - busca el objeto en la coleccion y lo actualiza
     def update(self, id, item:T):
-        _id = ObjectId(id)
         laColeccion = self.baseDatos[self.coleccion]
+        _id = ObjectId(id)
         delattr(item, "_id")
         item = item.__dict__
         updateItem = {"$set": item}

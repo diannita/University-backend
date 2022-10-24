@@ -1,9 +1,12 @@
 from Modelos.Materia import Materia
 from Repositorios.RepositorioMateria import RepositorioMateria
+from Repositorios.RepositorioDepartamento import RepositorioDepartamento
+from Modelos.Departamento import Departamento
 
 class ControladorMateria():
     def __init__(self):
         self.repositorioMateria = RepositorioMateria()
+        self.repositorioDepartamento = RepositorioDepartamento()
         print("creando controlador Materia")
 
     # metodo crear
@@ -56,3 +59,12 @@ class ControladorMateria():
         # informacion quemada de prueba
         # actualizarMateria = Materia(MateriaDatos)
         # return actualizarMateria.__dict__
+
+    #Relacion departamento y materia
+    def asignarDepartamento(self, id, id_departmento):
+        materiaActual = Materia(self.repositorioMateria.findById(id))
+        deparmentoActual = Departamento(self.repositorioDepartamento.findById(id_departmento))
+        materiaActual.departamento = deparmentoActual #crea un nuevo campo en MongoDB haciendo una referencia entre depart y materia
+        return self.repositorioMateria.save(materiaActual)
+
+

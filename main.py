@@ -24,7 +24,7 @@ from waitress import serve #desplegar y ejecutar los servicios en el localhost
 #importando los controladores
 from Controladores.ControladorEstudiante import ControladorEstudiante
 from Controladores.ControladorMateria import  ControladorMateria
-
+from Controladores.ControladorDepartamento import ControladorDepartamento
 
 
 app = Flask(__name__) #creacion instancia del servidor
@@ -94,6 +94,51 @@ def deleteMateria(id):
     dictMateria = miControladorMateria.delete(id)
     return jsonify(dictMateria)
 #end Rutas Materias
+
+
+#creacion de variable para mostrar rutas
+#Rutas Departamento
+miControladorDepartamento = ControladorDepartamento()
+
+@app.route("/departamentos",methods=['POST'])
+def CrearDepartamento():
+    datos = request.get_json()
+    respuesta = miControladorDepartamento.crear(datos)
+    return jsonify(respuesta)
+
+@app.route("/departamentos",methods=['GET'])
+def ObtenerDepartamentos():
+    respuesta = miControladorDepartamento.mostrarDepartamentos()
+    return jsonify(respuesta)
+
+@app.route("/departamentos/<string:id>", methods=['GET'])
+def ObtenerDepartamento(id):
+    respuesta = miControladorDepartamento.mostrarDepartamento(id)
+    return jsonify(respuesta)
+
+@app.route("/departamentos/<string:id>", methods=['PUT'])
+def ActualizarDepartamento(id):
+    datos = request.get_json()
+    respuesta = miControladorDepartamento.actualizar(id,datos)
+    return jsonify(respuesta)
+
+@app.route("/departamentos/<string:id>", methods = ['DELETE'])
+def EliminarDepartamento(id):
+    respuesta = miControladorDepartamento.eliminar(id)
+    return jsonify(respuesta)
+
+#Ruta de departamento con materia
+@app.route("/materias/<string:id>/departamentos/<string:id_departamento>",methods=['PUT'])
+def AsignarDepartamento(id, id_departamento):
+    respuesta = miControladorMateria.asignarDepartamento(id,id_departamento)
+    return jsonify(respuesta)
+#end Rutas Departamento
+
+
+
+
+
+
 
 
 #las siguientes lineas se define la ruta y el microservicio donde se va a desplegar
