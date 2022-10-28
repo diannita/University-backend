@@ -25,12 +25,13 @@ from waitress import serve #desplegar y ejecutar los servicios en el localhost
 from Controladores.ControladorEstudiante import ControladorEstudiante
 from Controladores.ControladorMateria import  ControladorMateria
 from Controladores.ControladorDepartamento import ControladorDepartamento
+from Controladores.ControladorInscripcion import ControladorInscripcion
 
 
 app = Flask(__name__) #creacion instancia del servidor
 cors = CORS(app)       #configuracion del cors
 
-#creacion de variable para mostrar rutas
+#creacion de variable para mostrar rutas----------------------------------------------
 #Rutas estudiantes
 miControladorEstudiante = ControladorEstudiante()
 
@@ -60,10 +61,10 @@ def putEstudiante(id):
 def deleteEstudiante(id):
     dictEstudiante = miControladorEstudiante.delete(id)
     return jsonify(dictEstudiante)
-#end rutas estudiantes
+#end rutas estudiantes----------------------------------------------
 
 
-#creacion de variable para mostrar rutas
+#creacion de variable para mostrar rutas----------------------------------------------
 #Rutas Materias
 miControladorMateria = ControladorMateria()
 
@@ -93,10 +94,10 @@ def putMateria(id):
 def deleteMateria(id):
     dictMateria = miControladorMateria.delete(id)
     return jsonify(dictMateria)
-#end Rutas Materias
+#end Rutas Materias----------------------------------------------
 
 
-#creacion de variable para mostrar rutas
+#creacion de variable para mostrar rutas----------------------------------------------
 #Rutas Departamento
 miControladorDepartamento = ControladorDepartamento()
 
@@ -132,11 +133,56 @@ def EliminarDepartamento(id):
 def AsignarDepartamento(id, id_departamento):
     respuesta = miControladorMateria.asignarDepartamento(id,id_departamento)
     return jsonify(respuesta)
-#end Rutas Departamento
+#end Rutas Departamento----------------------------------------------
 
 
+#creacion de variable para mostrar rutas
+#Rutas Inscripcion
+#Se realiza la creacion y manipulacion de los datos de Inscripcion -----------------------
+miControladorInscripcion= ControladorInscripcion()
+@app.route("/inscripcion/estudiante/<string:id_estudiante>/materia/<string:id_materia>",methods=['POST'])
+def crearInscripcion(id_estudiante,id_materia):
+    data = request.get_json()
+    dictUsuario = miControladorInscripcion.create(data,id_estudiante, id_materia)
+    return jsonify(dictUsuario)
 
+@app.route("/inscripcion/<string:id>",methods=['GET'])
+def getInscripcion(id):
+    dictInscripcion = miControladorInscripcion.mostrarInscripcion(id)
+    return jsonify((dictInscripcion))
 
+@app.route("/inscripcion",methods=['GET'])
+def getInscripcions():
+    dictInscripcions = miControladorInscripcion.mostrarInscripcions()
+    return jsonify(dictInscripcions)
+
+@app.route("/inscripcion/<string:id>/estudiante/<string:id_estudiante>/materia/<string:id_materia>",methods=['PUT'])
+def putInscripcion(id,id_estudiante,id_materia):
+    data = request.get_json()
+    dictInscripcion = miControladorInscripcion.update(id,data,id_estudiante,id_materia)
+    return jsonify(dictInscripcion)
+
+@app.route("/inscripcion/<string:id>",methods=['DELETE'])
+def deleteInscripcion(id):
+    dictInscripcion = miControladorInscripcion.delete(id)
+    return jsonify(dictInscripcion)
+
+@app.route("/inscripcion/materia/<string:id>",methods=['GET'])
+def inscritoMateria(id_materia):
+    respuesta = miControladorInscripcion.listarInscritos(id_materia)
+    return jsonify(respuesta)
+
+@app.route("/inscripcion/notas_mayores",methods=['GET'])
+def notaMayores():
+    respuesta = miControladorInscripcion.notaMasAltaPorMateria()
+    return jsonify(respuesta)
+
+@app.route("/inscripcion/promedio/materia/<string:id_materia>",methods=['GET'])
+def promedioMateria(id_materia):
+    respuesta = miControladorInscripcion.promedioMaterias(id_materia)
+    return jsonify(respuesta)
+
+#End Inscripcion----------------------------------------------
 
 
 
