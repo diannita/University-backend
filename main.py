@@ -30,11 +30,14 @@ from Controladores.ControladorInscripcion import ControladorInscripcion
 
 app = Flask(__name__) #creacion instancia del servidor
 cors = CORS(app)       #configuracion del cors
+miControladorEstudiante = ControladorEstudiante()
+miControladorMateria = ControladorMateria()
+miControladorDepartamento = ControladorDepartamento()
+miControladorInscripcion= ControladorInscripcion()
+
 
 #creacion de variable para mostrar rutas----------------------------------------------
 #Rutas estudiantes
-miControladorEstudiante = ControladorEstudiante()
-
 @app.route("/estudiantes",methods =['POST'])
 def crearEstudiante():
     data = request.get_json() #enviando informacion
@@ -66,8 +69,6 @@ def deleteEstudiante(id):
 
 #creacion de variable para mostrar rutas----------------------------------------------
 #Rutas Materias
-miControladorMateria = ControladorMateria()
-
 @app.route("/materias",methods =['POST'])
 def crearMateria():
     data = request.get_json() #enviando informacion
@@ -99,8 +100,6 @@ def deleteMateria(id):
 
 #creacion de variable para mostrar rutas----------------------------------------------
 #Rutas Departamento
-miControladorDepartamento = ControladorDepartamento()
-
 @app.route("/departamentos",methods=['POST'])
 def CrearDepartamento():
     datos = request.get_json()
@@ -136,10 +135,9 @@ def AsignarDepartamento(id, id_departamento):
 #end Rutas Departamento----------------------------------------------
 
 
-#creacion de variable para mostrar rutas
-#Rutas Inscripcion
-#Se realiza la creacion y manipulacion de los datos de Inscripcion -----------------------
-miControladorInscripcion= ControladorInscripcion()
+#creacion de variable para mostrar rutas----------------------------------------------
+#Rutas Inscripcion (Se realiza la creacion y manipulacion de los datos de Inscripcion)
+#Ruta de inscripcion estudiante y materia
 @app.route("/inscripcion/estudiante/<string:id_estudiante>/materia/<string:id_materia>",methods=['POST'])
 def crearInscripcion(id_estudiante,id_materia):
     data = request.get_json()
@@ -186,7 +184,6 @@ def promedioMateria(id_materia):
 
 
 
-
 #las siguientes lineas se define la ruta y el microservicio donde se va a desplegar
 @app.route("/",methods =['GET']) #creacion de rutas
 def test():
@@ -194,6 +191,7 @@ def test():
     json["mensaje"]="Servidor ejecutandose" #Para hacer un test y mostrar en el navegador
     return jsonify(json) #toma diccionarios a convertir en este caso json
     #luego se ejecuta la siguiente url en el navegador para ver el mensaje anterior http://127.0.0.1:9999/
+
 
 #leer archivo config.json - cargando las configuraciones
 def loadFileConfg():
