@@ -1,63 +1,55 @@
-from Repositorios.RepositorioInscripcion import RepositorioInscripcion
 from Repositorios.RepositorioMateria import RepositorioMateria
 from Repositorios.RepositorioEstudiante import RepositorioEstudiante
+from Repositorios.RepositorioInscripcion import RepositorioInscripcion
 
 from Modelos.Materia import Materia
 from Modelos.Estudiante import Estudiante
 from Modelos.Inscripcion import Inscripcion
 
-
 class ControladorInscripcion():
     def __init__(self):
-        #objeto de los repositorios
-        self.repositorioInscripcion = RepositorioInscripcion()
-        self.repositorioEstudiante = RepositorioEstudiante()
+        print("Creando controlador Inscripcion")
         self.repositorioMateria = RepositorioMateria()
-        print("Creando Controlado de Inscripcion")
+        self.repositorioEstudiante = RepositorioEstudiante()
+        self.repositorioInscripcion = RepositorioInscripcion()
 
-    def create(self, infoInscripcion,id_estudiante,id_materia):
-        print("crear Inscripcion")
-        crearInscripcion = Inscripcion(infoInscripcion)
+    def crear(self,infoInscripcion,id_estudiante,id_materia):
+        nuevaInscripcion = Inscripcion(infoInscripcion)
         estudiante = Estudiante(self.repositorioEstudiante.findById(id_estudiante))
         materia = Materia(self.repositorioMateria.findById(id_materia))
-        crearInscripcion.estudiante = estudiante
-        crearInscripcion.materia = materia
-        return self.repositorioInscripcion.save(crearInscripcion)
+        nuevaInscripcion.estudiante = estudiante
+        nuevaInscripcion.materia = materia
+        return self.repositorioInscripcion.save(nuevaInscripcion)
 
+    def mostrarInscripcion(self,id):
+        inscripcion = Inscripcion(self.repositorioInscripcion.findById(id))
+        return inscripcion.__dict__
 
-    def mostrarInscripcion(self, id):
-        print("Mostrando la Inscripcion con ID:"+str(id))
-        elInscripcion = Inscripcion(self.repositorioInscripcion.findById(id))
-        return elInscripcion.__dict__
-
-    def mostrarInscripcions(self):
-        print("Listar todos los Inscripciones")
+    def mostrarInscripciones(self):
         return self.repositorioInscripcion.findAll()
 
-    def delete(self, id):
-        print("Se elimino la Inscripcion con el id: "+str(id))
-        return self.repositorioInscripcion.delete(id)
-
-    def update(self,id,InscripcionDatos,id_estudiante,id_materia):
-        print("Se Actualizo el Inscripcion con id: "+str(id))
+    def actualizar(self,id,infoInscripcion,id_estudiante,id_materia):
         inscripcion = Inscripcion(self.repositorioInscripcion.findById(id))
-        inscripcion.year= InscripcionDatos["year"]
-        inscripcion.semestre = InscripcionDatos["semestre"]
-        inscripcion.nota_final = InscripcionDatos["nota_final"]
-        estudiante = Estudiante(self.repositorioEstudiante.findById(id_estudiante))
-        materia = Materia(self.repositorioMateria.findById(id_materia))
-        inscripcion.estudiante = estudiante
-        inscripcion.materia = materia
+        inscripcion.año = infoInscripcion['año']
+        inscripcion.semestre=infoInscripcion['semestre']
+        inscripcion.nota_final = infoInscripcion['nota_final']
+        estudiante1 = Estudiante(self.repositorioEstudiante.findById(id_estudiante))
+        materia1 = Materia(self.repositorioMateria.findById(id_materia))
+        inscripcion.estudiante = estudiante1
+        inscripcion.materia = materia1
         return self.repositorioInscripcion.save(inscripcion)
 
-    #obtener todos los inscritos en una materia
-    def listarInscritos(self,id_materia):
+    def eliminar(self,id):
+        return self.repositorioInscripcion.delete(id)
+
+    #Obtener todos los inscritos en una materia
+    def listarInscritosMateria(self,id_materia):
         return self.repositorioInscripcion.getListadoInscritosEnMateria(id_materia)
 
-    #obtener la mayor nota en materias
-    def notaMasAltaPorMateria(self):
+    #Obtener nota mayor en materias
+    def notaMasAltaporMateria(self):
         return self.repositorioInscripcion.getMayorNotaporCurso()
 
-    #obtener promedio de notas materias
-    def promedioMaterias(self, id_materia):
+    #OBtener promedio de notas materia
+    def promedioNotasMateria(self,id_materia):
         return self.repositorioInscripcion.promedioNotasEnMateria(id_materia)
