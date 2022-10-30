@@ -12,11 +12,10 @@ Python
 
 Mongo DB  
 
-FLASK  
-
-Angular JS  
+FLASK   
 
 JSON
 
 
 ## Configuraciones agregadas - Abiertas ya que son de ejemplo
+Se realiza el uso del IDE PyCharm CE el cual se procede a crear un projecto nuevo para tener la carpeta del ambiete viertual. venv
