@@ -19,3 +19,11 @@ JSON
 
 ## Configuraciones agregadas - Abiertas ya que son de ejemplo
 Se realiza el uso del IDE PyCharm CE el cual se procede a crear un projecto nuevo para tener la carpeta del ambiete viertual. venv
+
+Se debe de realiza la instalacion de las siguientes librerias en PyCharm CE
+Flask 
+jsonify 
+request
+flask_cors 
+json
+waitress
